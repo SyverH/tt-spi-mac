@@ -1,20 +1,14 @@
-<!---
-
-This file is used to generate your project datasheet. Please fill in the information below and delete any unused
-sections.
-
-You can also include images in this folder and reference them in the markdown. Each image must be less than
-512 kb in size, and the combined size of all images must be less than 1 MB.
--->
-
 ## How it works
 
-Explain how your project works
+Just the template adder to check that simulation and the ASIC build work.
+It adds ui_in and uio_in and puts the low 8 bits on uo_out.
+The bidirectional pins are inputs. Clock and reset are unused.
 
 ## How to test
 
-Explain how to use your project
+Set ui_in to 20 and uio_in to 30; uo_out should be 50.
+Run `make` in the test directory to try it in simulation.
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+None needed for simulation.
