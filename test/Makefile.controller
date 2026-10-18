@@ -1,0 +1,9 @@
+SIM ?= icarus
+TOPLEVEL_LANG = verilog
+VERILOG_SOURCES = $(CURDIR)/../src/command_controller.v
+TOPLEVEL = command_controller
+COCOTB_TEST_MODULES = test_controller
+SIM_BUILD = sim_build/controller
+COCOTB_RESULTS_FILE = $(SIM_BUILD)/results.xml
+
+include $(shell cocotb-config --makefiles)/Makefile.sim

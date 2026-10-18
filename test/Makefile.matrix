@@ -1,0 +1,13 @@
+# Run from test/: make -f Makefile.matrix [N=3]
+SIM ?= icarus
+N ?= 2
+export MATRIX_N = $(N)
+TOPLEVEL_LANG = verilog
+VERILOG_SOURCES = $(CURDIR)/../src/mac.v $(CURDIR)/../src/matrix_engine.v
+TOPLEVEL = matrix_engine
+COCOTB_TEST_MODULES = test_matrix
+COMPILE_ARGS += -Pmatrix_engine.N=$(N)
+SIM_BUILD = sim_build/matrix_$(N)
+COCOTB_RESULTS_FILE = $(SIM_BUILD)/results.xml
+
+include $(shell cocotb-config --makefiles)/Makefile.sim

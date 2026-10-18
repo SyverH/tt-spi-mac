@@ -31,10 +31,34 @@ jobs:
           # make will return success even if the tests fail, so check results.xml for failed tests
           python -m cocotb_tools.check_results results.xml
 
+      - name: Run command controller tests
+        working-directory: test
+        run: |
+          make -f Makefile.controller
+          python -m cocotb_tools.check_results sim_build/controller/results.xml
+
+      - name: Run MAC unit tests
+        working-directory: test
+        run: |
+          make -f Makefile.mac
+          python -m cocotb_tools.check_results sim_build/mac/results.xml
+
+      - name: Run matrix engine tests
+        working-directory: test
+        run: |
+          make -f Makefile.matrix
+          python -m cocotb_tools.check_results sim_build/matrix_2/results.xml
+          make -f Makefile.matrix N=3
+          python -m cocotb_tools.check_results sim_build/matrix_3/results.xml
+
       - name: Test Summary
         uses: test-summary/action@v2.4
         with:
-          paths: "test/results.xml"
+          paths: |
+            test/results.xml
+            test/sim_build/controller/results.xml
+            test/sim_build/mac/results.xml
+            test/sim_build/matrix_*/results.xml
         if: always()
 
       - name: upload waveform and test results
@@ -45,4 +69,7 @@ jobs:
           path: |
             test/tb.fst
             test/results.xml
+            test/sim_build/controller/results.xml
+            test/sim_build/mac/results.xml
+            test/sim_build/matrix_*/results.xml
             test/output/*

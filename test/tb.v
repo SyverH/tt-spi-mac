@@ -18,17 +18,34 @@ module tb ();
   reg rst_n;
   reg ena;
   reg [7:0] ui_in;
-  reg [7:0] uio_in;
+  wire [7:0] uio_in;
   wire [7:0] uo_out;
   wire [7:0] uio_out;
   wire [7:0] uio_oe;
+
+  // SPI signals driven by the test
+  reg spi_cs_n;
+  reg spi_clk;
+  reg spi_mosi;
+
+  // SPI signal read by the test
+  wire spi_miso;
+
+  assign uio_in[0] = spi_cs_n;  // SPI chip select
+  assign uio_in[1] = spi_clk;   // SPI clock
+  assign uio_in[2] = spi_mosi;  // Data from the master
+  assign uio_in[3] = 1'b0;      // MISO is an output, so its input is unused
+  assign uio_in[7:4] = 4'b0;    // Unused bits tied to 0
+
+  assign spi_miso = uio_out[3];  // Data to the master
+
 `ifdef GL_TEST
   wire VPWR = 1'b1;
   wire VGND = 1'b0;
 `endif
 
-  // Replace tt_um_example with your module name:
-  tt_um_example user_project (
+  // Instantiate the Tiny Tapeout top module.
+  tt_um_syverh_spi_mac user_project (
 
       // Include power ports for the Gate Level test:
 `ifdef GL_TEST
